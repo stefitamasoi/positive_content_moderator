@@ -1,0 +1,38 @@
+import os.path
+from pprint import pprint
+
+from azure.cognitiveservices.vision.contentmoderator import ContentModeratorClient
+import azure.cognitiveservices.vision.contentmoderator.models
+from msrest.authentication import CognitiveServicesCredentials
+
+key = "personal key here"
+endpoint = "personal endpoint here"
+
+client = ContentModeratorClient(
+    endpoint=endpoint,
+    credentials=CognitiveServicesCredentials(key)
+)
+
+TEXT_FOLDER = os.path.join(os.path.dirname(
+    os.path.realpath(__file__)), "text_files")
+
+
+# Screen the input text: check for profanity,
+# do autocorrect text, and check for personally identifying
+# information (PII)
+def content_moderator_result():
+    with open(r"C:\Python\PycharmProjects\goodExample.csv") as text_fd:
+        screen = client.text_moderation.screen_text(
+            text_content_type="text/plain",
+            text_content=text_fd,
+            language="eng",
+            autocorrect=True,
+            pii=True
+        )
+        pprint(screen.as_dict())
+        result = screen.as_dict()
+        badWords = result["terms"]
+        badWordCount = len(badWords)
+
+
+content_moderator_result()

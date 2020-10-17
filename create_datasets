@@ -1,0 +1,17 @@
+import pandas as pd
+
+
+def tweetExamples():
+    file = pd.read_csv(r"C:\Users\Home\Downloads\archive\train_E6oV3lV.csv")
+
+    badExampleFilter = file["label"] == 0
+    badExamples = file[badExampleFilter]
+
+    goodExampleFilter = file["label"] == 1
+    goodExamples = file[goodExampleFilter]
+
+    badExamples.to_csv(r"C:\Python\PycharmProjects")
+    goodExamples.to_csv(r"C:\Python\PycharmProjects")
+
+
+tweetExamples()
